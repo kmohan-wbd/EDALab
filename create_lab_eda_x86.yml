@@ -1,0 +1,12 @@
+---
+- name: build the VM is not present
+  tasks:
+    - name: creating VM for the lab on x86
+      vars:
+       - name: {{ item }}
+      import_role:
+       - name: create_vms
+      loop:
+        - eda_controller
+        - exec_node
+        - managed_node

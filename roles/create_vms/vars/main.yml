@@ -1,0 +1,9 @@
+---
+# vars file for create_vms
+#
+pool_dir: "/var/lib/libvirt/images"
+vcpus: 2
+ram_mb: 2048
+cleanup: no
+net: default
+ssh_pub_key: "id_rsa.pub"

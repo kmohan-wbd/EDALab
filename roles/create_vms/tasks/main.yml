@@ -1,0 +1,119 @@
+---
+- name: Get VMs list
+  community.libvirt.virt:
+    command: list_vms
+  register: existing_vms
+  changed_when: no
+
+- name: print vms
+  debug:
+          var:  existing_vms 
+
+- name: Create VM if not exists
+  block:
+  - name: Download base image
+    get_url:
+      url: "{{ base_image_url }}"
+      dest: "/tmp/{{ base_image_name }}"
+      #checksum: "sha256:{{ base_image_sha }}"
+    tags:
+      - never
+
+  - name: Copy base image to libvirt directory
+    copy:
+      dest: "{{ libvirt_pool_dir }}/{{ vm_name }}.qcow2"
+      src: "/home/kamlendu/images_qcow2/{{ base_image_name }}"
+      force: no
+      remote_src: yes 
+      mode: 0660
+    register: copy_results
+
+  - name: Define vm
+    ansible.builtin.command: virt-install --name "{{ vm_name }}" --memory "{{ memory }}" --vcpu "{{ vcpus }}" --disk "{{ libvirt_pool_dir }}/{{ vm_name }}.qcow2",size={{ disk_size |float }} --graphics none --console pty,target_type=virtio --serial pty --cloud-init user-data=user-data --os-variant detect=on
+    tags:
+     - never
+
+  - name: Define vm
+    community.libvirt.virt:
+      command: define
+      xml: "{{ lookup('template', 'vm-template.xml.j2') }}"
+      #cloud-init: user-data=user-data
+
+  #when: "{{ vm_name }} not in existing_vms.list_vms"
+  #when: "{{ vm_name }} not in existing_vms.list_vms"
+
+- name: Ensure VM is started
+  community.libvirt.virt:
+    name: "{{ vm_name }}"
+    state: running
+  register: vm_start_results
+  until: "vm_start_results is success"
+  retries: 15
+  delay: 2
+
+- name: waiting for 5 sec to start the vms
+  pause:
+    seconds: 5
+
+- name: Configure the image
+  block:
+  - name: shutdown the vms
+    community.libvirt.virt:
+      name: "{{ vm_name }}"
+      state: shutdown
+    ignore_errors: true
+
+  - name: shutdown the vms
+    pause:
+      seconds: 5
+     
+  - name: configure the vm 
+    command: |
+      virt-customize -a {{ libvirt_pool_dir }}/{{ vm_name }}.qcow2 \
+      --hostname "{{ vm_name }}" \
+      --root-password password:{{ vm_root_pass }} \
+      --uninstall cloud-init --selinux-relabel \
+      --ssh-inject 'root:file:infra_key.pub' 
+    #--ssh-inject 'root:file:{{ ssh_key }}' \
+
+  - name: start the vms
+    community.libvirt.virt:
+      name: "{{ vm_name }}"
+      state: running
+  #when: copy_results is changed
+  tags:
+    - configure_vm
+    - configure_utility
+
+- name: clean the vm stack
+  block:
+  - name: shutdown the vms
+    community.libvirt.virt:
+      name: "{{ vm_name }}"
+      state: shutdown
+
+  - name: desotry the vms
+    community.libvirt.virt:
+      name: "{{ vm_name }}"
+      state: destroyed
+
+  - name: undefine the vms
+    command: |
+      virsh undefine "{{ vm_name }}" --remove-all-storage
+
+  - name: remove the qcow2
+    file:
+      path: "{{ libvirt_pool_dir }}/{{ vm_name }}.qcow2"
+      state: absent
+
+  tags:
+    - never
+    - delete_stack
+
+- name: Ensure temporary file is deleted
+  file:
+    path: "/tmp/{{ base_image_name }}"
+    state: absent
+  when: cleanup_tmp | bool
+  tags:
+    - never
