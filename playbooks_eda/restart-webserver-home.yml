@@ -1,6 +1,5 @@
 ---
 - name: restart the site
-  hosts: localhost
   gather_facts: true
   become: true
   tasks:
