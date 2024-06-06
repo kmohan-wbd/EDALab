@@ -6,7 +6,7 @@
   tasks:
     - debug:
         msg: "fixing the webserver"
-      when: ansible_facts['nodename'] == 'webserver'
+      when: ansible_facts['ansible_hostname'] == 'webserver'
 
     - name: restart the container
       shell:
