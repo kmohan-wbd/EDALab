@@ -3,7 +3,7 @@
   gather_facts: false
   tasks:
     - debug:
-        msg: "fixing the web"
+        msg: "fixing the webserver"
 
     - name: restart the container
       containers.podman.podman_container:
