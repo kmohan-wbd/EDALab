@@ -1,5 +1,6 @@
 ---
 - name: restart the site
+  hosts: all
   gather_facts: true
   become: true
   tasks:
