@@ -14,8 +14,9 @@
       condition: event.url_check.status == "up"
     ## Define the action we should take should the condition be met  
       action:
-        run_playbook:
-          name: wowza.yml
+        run_job_template:
+          name: respond-url-fail-homelab
+          organization: Default
 
     - name: Web site is down
       condition: event.url_check.status == "down"
