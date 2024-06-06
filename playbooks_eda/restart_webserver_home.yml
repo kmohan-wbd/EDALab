@@ -1,0 +1,12 @@
+---
+- name: restart the site
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "fixing the web"
+
+    - name: restart the container
+      containers.podman.podman_container:
+        name: flamboyant_morse
+        state: started
+
