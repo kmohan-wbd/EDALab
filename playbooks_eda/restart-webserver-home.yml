@@ -11,5 +11,5 @@
     - name: restart the container
       shell:
         cmd: podman start 444b8caa8626
-      when: ansible_facts['nodename'] == 'webserver'
+      when: ansible_facts['ansible_hostname'] == 'webserver'
 
