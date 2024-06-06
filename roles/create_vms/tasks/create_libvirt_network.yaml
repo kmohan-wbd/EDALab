@@ -1,0 +1,31 @@
+---
+- name: Ensure libvirt network is defined
+  community.libvirt.virt_net:
+    name: "{{ network_source }}"
+    state: present
+
+- name: Ensure libvirt network is running
+  community.libvirt.virt_net:
+    name: "{{ network_source }}"
+    state: active 
+
+- name: Define a new network
+  community.libvirt.virt_net:
+    command: define
+    name: "{{ network_second }}"
+    xml: '{{ lookup("template", "network-template.xml.j2") }}'
+
+- name: Start a network
+  community.libvirt.virt_net:
+    command: create
+    name: "{{ network_second }}"
+
+- name: Ensure libvirt 2nd network is defined
+  community.libvirt.virt_net:
+    name: "{{ network_second }}"
+    state: present
+
+- name: Ensure libvirt network is running
+  community.libvirt.virt_net:
+    name: "{{ network_second }}"
+    state: active

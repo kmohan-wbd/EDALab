@@ -1,0 +1,9 @@
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+web:
+  hosts:
+    webserver:
+      ansible_user: rhel
+      ansible_password: ansible123!

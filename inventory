@@ -1,0 +1,2 @@
+[all]
+homelab.kam.example.com ansible_connection=ssh ansible_user=kamlendu

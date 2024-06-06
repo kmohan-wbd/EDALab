@@ -1,13 +1,21 @@
 ---
+- name: include tasks required to create the vms
+  include_tasks:
+    file: create_libvirt_network.yaml
+
 - name: Get VMs list
   community.libvirt.virt:
     command: list_vms
   register: existing_vms
   changed_when: no
 
+- name: print vm to create
+  debug:
+          msg:  "{{ libvirt_pool_dir }}/{{ vm_name }}.qcow2"
+
 - name: print vms
   debug:
-          var:  existing_vms 
+          var:  existing_vms.list_vms 
 
 - name: Create VM if not exists
   block:
@@ -40,7 +48,7 @@
       #cloud-init: user-data=user-data
 
   #when: "{{ vm_name }} not in existing_vms.list_vms"
-  #when: "{{ vm_name }} not in existing_vms.list_vms"
+  #when: existing_vms.stdout.find("{{ vm_name }}") != -1
 
 - name: Ensure VM is started
   community.libvirt.virt:
@@ -60,12 +68,12 @@
   - name: shutdown the vms
     community.libvirt.virt:
       name: "{{ vm_name }}"
-      state: shutdown
+      state: destroyed
     ignore_errors: true
 
   - name: shutdown the vms
     pause:
-      seconds: 5
+      seconds: 10
      
   - name: configure the vm 
     command: |
@@ -109,6 +117,7 @@
   tags:
     - never
     - delete_stack
+#- meta: end_play
 
 - name: Ensure temporary file is deleted
   file:
