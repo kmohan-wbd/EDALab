@@ -5,12 +5,11 @@
   become: true
   tasks:
     - debug:
-        #msg: "fixing the webserver"
-        var: inventory_hostname
-      #when: ansible_facts['inventory_hostname'] == 'webserver'
+        msg: "fixing the webserver"
+        #var: inventory_hostname
 
     - name: restart the container
       shell:
         cmd: podman start 444b8caa8626
-      when: inventory_hostname == 'webserver'
+      #when: inventory_hostname == 'webserver'
 
