@@ -7,7 +7,6 @@
         host: 10.0.0.73
         port: 9092
         topic: eda-test-events
-        group_id:
 
   ## Define the conditions we are looking for
   rules:
