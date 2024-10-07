@@ -16,9 +16,10 @@
         run_job_template:
           #name: DemoJobTemplate
           #organization: Default
-          name: DemoEDAHello
+          name: "DemoEDAHello Cust"
           #name: custmain dev CasC Ctrl CD Webhook Trigger
-          organization: custmain
+          #organization: custmain
+          organization: "Test with space"
           job_args:
             extra_vars:
               json_payload: "{{ event.payload.repository.project.name }}"
