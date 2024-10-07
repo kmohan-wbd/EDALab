@@ -9,7 +9,7 @@
         port: 5000
   ## Define the conditions we are looking for
   rules:
-    - name: Trigger Playbook with payload
+    - name: "Trigger Playbook with payload"
       #condition: event.payload != ""
       condition: event.payload != null
       action:
