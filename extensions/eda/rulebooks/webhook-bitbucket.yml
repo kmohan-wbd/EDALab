@@ -12,7 +12,7 @@
     - name: "Trigger Playbook with payload"
       #condition: event.payload != ""
       condition: event.payload != null
-      action:
+      actions:
         run_job_template:
           #name: DemoJobTemplate
           #organization: Default
