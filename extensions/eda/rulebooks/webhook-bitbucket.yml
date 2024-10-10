@@ -13,6 +13,9 @@
       #condition: event.payload != ""
       condition: event.payload != null
       action:
+        set_fact:
+          fact:
+            message: "{{ event.payload.repository.full_name }}"
         run_job_template:
           #name: DemoJobTemplate
           #organization: Default
@@ -22,5 +25,5 @@
           organization: "Test with space"
           job_args:
             extra_vars:
-              json_payload: "{{ event.payload.repository.project }}"
-              message: FromEDA
+              json_payload: "{{ event.payload.repository.project.name }}"
+              message: "{{ message }}"
