@@ -15,9 +15,9 @@
       condition: event.body.message == "Create a SNOW"
       ## Define the action we should take should the condition be met
       action:
-        debug:
-          msg:
-            - "{{ event.body.message }}"
+        #debug:
+        #  msg:
+        #    - "{{ event.body.message }}"
         run_job_template:
           #name: respond-kafka-message
           name: Create_sample_incident_sn
