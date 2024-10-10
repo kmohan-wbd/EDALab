@@ -24,6 +24,6 @@
           organization: Default
           job_args:
             extra_vars:
-              json_payload: "{{ event.body }}"
+              json_payload: event.body 
               test: "frm EDA"
 
