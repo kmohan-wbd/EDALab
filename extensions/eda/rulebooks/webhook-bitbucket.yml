@@ -22,5 +22,5 @@
           organization: "Test with space"
           job_args:
             extra_vars:
-              json_payload: "{{ event.payload.repository.project.name }}"
+              json_payload: "{{ event.payload.repository.project }}"
               message: FromEDA
