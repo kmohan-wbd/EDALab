@@ -22,4 +22,5 @@
           job_args:
             extra_vars:
               json_payload: "{{ event.body }}"
+              test: "frm EDA"
 
