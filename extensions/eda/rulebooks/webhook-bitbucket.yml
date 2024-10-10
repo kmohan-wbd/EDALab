@@ -20,8 +20,3 @@
           #name: custmain dev CasC Ctrl CD Webhook Trigger
           #organization: custmain
           organization: "Test with space"
-          var_root: "{{ event.payload.repository.project }}"
-          job_args:
-            extra_vars:
-              json_payload: "{{ event.payload.repository.project.name }}"
-              message: "from EDA"
