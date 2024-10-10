@@ -22,9 +22,4 @@
           #name: respond-kafka-message
           name: Create_sample_incident_sn
           organization: Default
-          var_root: "{{ event.body }}"
-          job_args:
-            extra_vars:
-              json_payload: "{{ event.body |to_json }}"
-              test: "frm EDA"
 
