@@ -25,6 +25,6 @@
           var_root: "{{ event.body }}"
           job_args:
             extra_vars:
-              json_payload: "{{ event.body.message }}"
+              json_payload: "{{ event.body |to_json }}"
               test: "frm EDA"
 
