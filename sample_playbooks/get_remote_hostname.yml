@@ -1,0 +1,12 @@
+---
+- name: Print hostname of remote host
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Print the hostname
+      command: hostname
+      register: hostname_output
+
+    - name: Display hostname
+      debug:
+        msg: "Hostname of the remote host is {{ hostname_output.stdout }}"
