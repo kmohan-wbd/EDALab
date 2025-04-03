@@ -10,17 +10,10 @@
   rules:
     ## Define the conditions we are looking for 
     - name: run if message has aws 
-      condition: "aws" in event.body.message
+      condition: event.payload != null
     ## Define the action we should take should the condition be met  
       action:
         run_job_template:
           name: RunOnSplunk
           organization: Default
 
-    - name: run if no aws
-      condition: "os" in event.body.message
-    ## Define the action we should take should the condition be met  
-      action:
-        run_job_template:
-          name: RunOnSplunkNoAWS
-          organization: Default
