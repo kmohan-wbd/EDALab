@@ -10,14 +10,14 @@
   rules:
     ## Define the conditions we are looking for 
     - name: run if message has aws 
-      #condition: event.payload.winlog.evnt_id == "6005"
-      condition: true
+      condition: event.meta != null
+      #condition: true
     ## Define the action we should take should the condition be met  
       action:
-        print_event:
-          pretty: true
-        #run_job_template:
-        #  name: RunOnSplunk
-        #  extra_vars: "{{ event.payload }}"
-        #  organization: Default
+        #print_event:
+        #  pretty: true
+        run_job_template:
+          name: RunOnSplunk
+          extra_vars: "{{ event.meta }}"
+          organization: Default
 
