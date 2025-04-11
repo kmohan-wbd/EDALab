@@ -5,7 +5,7 @@
   sources:
      - ansible.eda.url_check:
         urls:
-          - http://10.0.0.73:8080
+          - https://emea-aap-dev-use1-aap.apps.rosa.emea-dev-use1.dia7.p3.openshiftapps.com
         delay: 10
 
   rules:
@@ -15,7 +15,8 @@
     ## Define the action we should take should the condition be met  
       action:
         run_job_template:
-          name: respond-url-pass-homelab
+          #name: respond-url-pass-homelab
+          name: RunOnSplunk
           organization: Default
 
     - name: Web site is down
@@ -23,5 +24,6 @@
     ## Define the action we should take should the condition be met  
       action:
         run_job_template:
-          name: respond-url-fail-homelab
+          #name: respond-url-fail-homelab
+          name: RunOnSplunk
           organization: Default
