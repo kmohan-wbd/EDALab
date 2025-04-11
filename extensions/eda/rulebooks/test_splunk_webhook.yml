@@ -10,7 +10,7 @@
   rules:
     ## Define the conditions we are looking for 
     - name: run if message has aws 
-      condition: event != null
+      condition: event.payload != null
       #condition: true
     ## Define the action we should take should the condition be met  
       action:
