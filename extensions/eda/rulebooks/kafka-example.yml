@@ -12,7 +12,8 @@
   rules:
     - name: Say Hello
       #condition: event.body.message == "Ansible is cool"
-      condition: event.body.message == "Create a SNOW"
+      #condition: event.body.message == "Create a SNOW"
+      condition: event.body is search("Create a SNOW")
       ## Define the action we should take should the condition be met
       action:
         #debug:
