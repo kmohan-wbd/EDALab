@@ -4,7 +4,7 @@
   ## Define our source for events
   sources:   
     - ansible.eda.kafka:
-        host: 172.31.45.174
+        host: 10.50.202.51
         port: 9092
         topic: eda-test-events
 
