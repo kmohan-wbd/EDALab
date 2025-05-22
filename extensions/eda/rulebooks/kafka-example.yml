@@ -13,7 +13,7 @@
     - name: Say Hello
       #condition: event.body.message == "Ansible is cool"
       #condition: event.body.message == "Create a SNOW"
-      condition: event.body is search("Create a SNOW")
+      condition: event.body is search("Reboot occured and have met requirements to be send to webhook")
       ## Define the action we should take should the condition be met
       action:
         #debug:
@@ -21,6 +21,6 @@
         #    - "{{ event.body.message }}"
         run_job_template:
           #name: respond-kafka-message
-          name: Create_sample_incident_sn
-          organization: Default
+          name: AdSales
+          organization: WBD-Citrix
 
